@@ -270,6 +270,71 @@
   .tier-c .lvl { font-weight: 800; color: var(--primary); font-size: 0.82rem; text-transform: uppercase; letter-spacing: .06em; }
   .tier-c .amt { font-size: 1.45rem; font-weight: 800; color: var(--navy); margin: 6px 0 4px; }
   .tier-c .nights { font-size: 0.88rem; color: var(--muted); }
+
+  .income-wrap {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 16px 16px; overflow-x: auto;
+  }
+  .income-sub {
+    text-align: center; color: var(--muted); font-size: 0.9rem;
+    margin: -6px 0 16px; max-width: 40em; margin-left: auto; margin-right: auto;
+  }
+  .months {
+    display: grid; grid-template-columns: repeat(6, minmax(120px, 1fr));
+    gap: 0; min-width: 780px; position: relative;
+  }
+  .months::before {
+    content: ""; position: absolute; left: 4%; right: 4%; top: 38px;
+    height: 6px; background: var(--primary); border-radius: 4px; z-index: 0;
+  }
+  .mo {
+    position: relative; z-index: 1; text-align: center;
+    padding: 0 6px 8px; border-right: 1px dashed #d5e0e6;
+  }
+  .mo:last-child { border-right: none; }
+  .mo .tab {
+    display: inline-block; background: var(--navy); color: #fff;
+    font-size: 0.68rem; font-weight: 800; letter-spacing: .06em;
+    text-transform: uppercase; padding: 6px 10px; border-radius: 8px;
+    margin-bottom: 18px;
+  }
+  .mo .tree {
+    width: 48px; height: 40px; margin: 0 auto 10px;
+    background: linear-gradient(180deg, var(--teal), var(--primary));
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    border-radius: 4px; opacity: .9;
+  }
+  .mo .people {
+    background: #f0655a; color: #fff; border-radius: 10px;
+    padding: 8px 6px; font-size: 0.78rem; font-weight: 700; margin-bottom: 10px;
+  }
+  .mo .earn { font-size: 0.78rem; color: #f0655a; font-weight: 800; margin-bottom: 4px; }
+  .mo .cum { font-size: 0.78rem; color: var(--primary); font-weight: 800; }
+  .mo .lbl { font-size: 0.65rem; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+  .income-sum {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    margin-top: 16px; border-radius: 14px; overflow: hidden;
+    min-width: 780px;
+  }
+  .income-sum .a {
+    background: var(--navy); color: #e8f3f1; padding: 16px 18px;
+    font-size: 0.95rem;
+  }
+  .income-sum .b {
+    background: #f0655a; color: #fff; padding: 16px 18px;
+    font-size: 0.95rem; font-weight: 700;
+  }
+  .income-sum strong { font-size: 1.15rem; }
+  .income-foot {
+    margin-top: 12px; font-size: 0.82rem; color: var(--muted);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .income-foot i {
+    flex: 0 0 18px; height: 18px; border-radius: 50%;
+    background: var(--primary); color: #fff; font-style: normal;
+    font-size: 0.7rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
   .center { text-align: center; }
   .center .lead { margin-left: auto; margin-right: auto; }
 </style>
@@ -655,6 +720,92 @@
         · Smaller amounts further up<br><br>
         Exact percentages depend on partner level.
       </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="alt" id="partner-income">
+  <div class="wrap">
+    <h2 class="sec show-sv">Huvudpartners intäkt — 6 månader</h2>
+    <h2 class="sec show-en">Main partner income — 6 months</h2>
+    <p class="income-sub show-sv">
+      Varje person tar bara in <strong>2 personer</strong> och stannar där · Pris <strong>€1 250 / m²</strong> · Minsta ingång <strong>€50 000</strong>
+    </p>
+    <p class="income-sub show-en">
+      Each person brings only <strong>2 people</strong> and then stops · Price <strong>€1,250 / m²</strong> · Minimum entry <strong>€50,000</strong>
+    </p>
+
+    <div class="income-wrap">
+      <div class="months">
+        <div class="mo">
+          <div class="tab show-sv">Månad 1</div><div class="tab show-en">Month 1</div>
+          <div class="tree" aria-hidden="true"></div>
+          <div class="people">+2</div>
+          <div class="lbl show-sv">Månadsintäkt</div><div class="lbl show-en">Monthly</div>
+          <div class="earn">€4 800</div>
+          <div class="lbl show-sv">Ackumulerat</div><div class="lbl show-en">Cumulative</div>
+          <div class="cum">€4 800</div>
+        </div>
+        <div class="mo">
+          <div class="tab show-sv">Månad 2</div><div class="tab show-en">Month 2</div>
+          <div class="tree" aria-hidden="true"></div>
+          <div class="people">+4</div>
+          <div class="lbl show-sv">Månadsintäkt</div><div class="lbl show-en">Monthly</div>
+          <div class="earn">€7 000</div>
+          <div class="lbl show-sv">Ackumulerat</div><div class="lbl show-en">Cumulative</div>
+          <div class="cum">€11 800</div>
+        </div>
+        <div class="mo">
+          <div class="tab show-sv">Månad 3</div><div class="tab show-en">Month 3</div>
+          <div class="tree" aria-hidden="true"></div>
+          <div class="people">+8</div>
+          <div class="lbl show-sv">Månadsintäkt</div><div class="lbl show-en">Monthly</div>
+          <div class="earn">€9 200</div>
+          <div class="lbl show-sv">Ackumulerat</div><div class="lbl show-en">Cumulative</div>
+          <div class="cum">€21 000</div>
+        </div>
+        <div class="mo">
+          <div class="tab show-sv">Månad 4</div><div class="tab show-en">Month 4</div>
+          <div class="tree" aria-hidden="true"></div>
+          <div class="people">+16</div>
+          <div class="lbl show-sv">Månadsintäkt</div><div class="lbl show-en">Monthly</div>
+          <div class="earn">€11 200</div>
+          <div class="lbl show-sv">Ackumulerat</div><div class="lbl show-en">Cumulative</div>
+          <div class="cum">€32 200</div>
+        </div>
+        <div class="mo">
+          <div class="tab show-sv">Månad 5</div><div class="tab show-en">Month 5</div>
+          <div class="tree" aria-hidden="true"></div>
+          <div class="people">+32</div>
+          <div class="lbl show-sv">Månadsintäkt</div><div class="lbl show-en">Monthly</div>
+          <div class="earn">€13 600</div>
+          <div class="lbl show-sv">Ackumulerat</div><div class="lbl show-en">Cumulative</div>
+          <div class="cum">€45 800</div>
+        </div>
+        <div class="mo">
+          <div class="tab show-sv">Månad 6</div><div class="tab show-en">Month 6</div>
+          <div class="tree" aria-hidden="true"></div>
+          <div class="people">+64</div>
+          <div class="lbl show-sv">Månadsintäkt</div><div class="lbl show-en">Monthly</div>
+          <div class="earn">€17 000</div>
+          <div class="lbl show-sv">Ackumulerat</div><div class="lbl show-en">Cumulative</div>
+          <div class="cum">€62 800</div>
+        </div>
+      </div>
+
+      <div class="income-sum">
+        <div class="a show-sv">Totalt i strukturen efter 6 månader: <strong>127 personer</strong></div>
+        <div class="a show-en">Total people in structure after 6 months: <strong>127</strong></div>
+        <div class="b show-sv">Huvudpartner tjänade <strong>≈ €63 000 på 6 månader</strong></div>
+        <div class="b show-en">Main partner earned <strong>≈ €63,000 in 6 months</strong></div>
+      </div>
+    </div>
+
+    <div class="income-foot">
+      <i>i</i>
+      <span class="show-sv">De som kom in tidigare och tog in egna personer får också fortsatt del från sina mindre grupper. Räkneexempel enligt programkonceptet — utkast tills villkor låses.</span>
+      <span class="show-en">Those who joined earlier and brought their own people also keep earning from their mini-groups. Illustrative example from the program concept — draft until terms are locked.</span>
     </div>
   </div>
 </section>
