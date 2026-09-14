@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Square Partner</title>
+<style>
+  :root {
+    --navy: #0f1f2e;
+    --navy-2: #163042;
+    --primary: #1b8a7e;
+    --teal: #5dddd5;
+    --accent: #e6f6f5;
+    --secondary: #f0faf9;
+    --muted: #5a6b7a;
+    --text: #0f1f2e;
+    --white: #fff;
+    --line: #d5e8e6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background: var(--secondary);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+  header {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 50%, #1a4545 100%);
+    color: var(--white);
+    padding: 16px 0 48px;
+  }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 36px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.9rem; }
+  .mark {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: linear-gradient(135deg, var(--primary), var(--teal));
+  }
+  .lang { display: inline-flex; border: 1px solid rgba(93,221,213,.45); border-radius: 8px; overflow: hidden; }
+  .lang button {
+    border: 0; background: transparent; color: #b8d4d1;
+    padding: 7px 12px; font-weight: 700; font-size: 0.78rem; cursor: pointer;
+  }
+  .lang button.active { background: var(--primary); color: #fff; }
+  .pill {
+    display: inline-block; font-size: 0.72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--teal); font-weight: 700; margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(1.75rem, 4.2vw, 2.45rem);
+    line-height: 1.18; letter-spacing: -0.02em; max-width: 16ch; margin-bottom: 14px;
+  }
+  .hero-plain {
+    font-size: 1.12rem; color: #d5e8e5; max-width: 34em; margin-bottom: 22px;
+  }
+  .hero-plain strong { color: var(--teal); font-weight: 600; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 0.92rem;
+    text-decoration: none; border: none; cursor: pointer;
+  }
+  .btn-p { background: var(--primary); color: #fff; }
+  .btn-g { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); }
+  .simple-box {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(93,221,213,.28);
+    border-radius: 12px; padding: 16px 18px; max-width: 36em;
+  }
+  .simple-box h2 {
+    font-size: 0.78rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 8px; font-weight: 700;
+  }
+  .simple-box p { font-size: 0.98rem; color: #e8f3f1; margin: 0; }
+  section { padding: 48px 0; }
+  section.alt { background: var(--white); }
+  h2.sec { font-size: 1.45rem; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .lead { color: var(--muted); margin-bottom: 22px; max-width: 38em; font-size: 1.02rem; }
+  .steps {
+    display: grid; gap: 12px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 700px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+  }
+  .step {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px;
+  }
+  section.alt .step { background: var(--accent); border-color: #cfe9e6; }
+  .step .n {
+    flex: 0 0 36px; height: 36px; border-radius: 50%;
+    background: var(--primary); color: #fff; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+  }
+  .step h3 { font-size: 1rem; margin-bottom: 4px; }
+  .step p { font-size: 0.9rem; color: var(--muted); }
+  .earn-grid {
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .earn {
+    border-radius: 12px; padding: 18px; background: var(--navy); color: #fff;
+    border: 1px solid rgba(93,221,213,.3);
+  }
+  .earn .t { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--teal); font-weight: 700; margin-bottom: 6px; }
+  .earn .b { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+  .earn .d { font-size: 0.88rem; color: #b8ccc9; }
+  table {
+    width: 100%; border-collapse: collapse; font-size: 0.88rem;
+    background: var(--white); border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--line); margin-top: 8px;
+  }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th {
+    background: var(--navy); color: var(--teal);
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--accent); }
+  .tier-row {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .tier {
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  .tier .name { font-weight: 800; color: var(--primary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: .06em; }
+  .tier .m2 { font-size: 0.82rem; color: var(--muted); margin: 4px 0 8px; }
+  .tier .pct { font-size: 1.8rem; font-weight: 800; color: var(--navy); line-height: 1; }
+  .tier .perk { font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+  .example {
+    margin-top: 18px; background: var(--accent); border-radius: 12px;
+    border: 1px solid var(--line); padding: 16px 18px;
+  }
+  .example strong { color: var(--primary); }
+  .faq details {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px 16px; margin-bottom: 8px;
+  }
+  section.alt .faq details { background: var(--accent); }
+  .faq summary {
+    cursor: pointer; font-weight: 700; list-style: none;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq details p { margin-top: 8px; font-size: 0.92rem; color: var(--muted); }
+  .rules { display: grid; gap: 8px; }
+  .rule {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 14px; background: var(--white); border: 1px solid var(--line); border-radius: 10px;
+  }
+  .rule i {
+    flex: 0 0 24px; height: 24px; border-radius: 6px; background: var(--primary); color: #fff;
+    font-style: normal; font-size: 0.72rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rule span { font-size: 0.92rem; }
+  .note {
+    margin-top: 20px; font-size: 0.82rem; color: var(--muted);
+    border-left: 3px solid var(--primary); padding-left: 12px;
+  }
+  footer {
+    background: var(--navy); color: #9bb5b2; text-align: center;
+    padding: 24px 0; font-size: 0.78rem;
+  }
+  footer b { color: var(--teal); }
+  .show-sv, .show-en { display: none !important; }
+  html[lang="sv"] .show-sv,
+  html[lang="en"] .show-en { display: revert !important; }
+  .hero-visual {
+    margin-top: 28px; border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(93,221,213,.28);
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  }
+  .hero-visual img {
+    display: block; width: 100%; height: auto; vertical-align: middle;
+  }
+
+  .roi-grid {
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin-top: 8px;
+  }
+  .obj {
+    background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  section.alt .obj { background: var(--accent); border-color: #cfe9e6; }
+  .obj-img { aspect-ratio: 16/11; overflow: hidden; background: #0f1f2e; }
+  .obj-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .obj-body { padding: 14px 14px 16px; }
+  .obj-tag {
+    display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--primary); margin-bottom: 6px;
+  }
+  .obj h3 { font-size: 0.95rem; line-height: 1.25; margin-bottom: 4px; }
+  .obj-loc { font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; }
+  .obj-price { font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+  .obj-angle { font-size: 0.84rem; color: var(--muted); }
+  .pillars {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-bottom: 8px;
+  }
+  .pillar {
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+  }
+  section.alt .pillar { background: var(--accent); }
+  .pillar h3 { font-size: 0.95rem; margin-bottom: 4px; color: var(--primary); }
+  .pillar p { font-size: 0.88rem; color: var(--muted); }
+
+  .why-grid {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-bottom: 18px;
+  }
+  .why {
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+  }
+  section.alt .why { background: var(--accent); }
+  .why h3 { font-size: 0.95rem; margin-bottom: 4px; color: var(--primary); }
+  .why p { font-size: 0.88rem; color: var(--muted); }
+  .not-whole {
+    background: var(--navy); color: #e8f3f1; border-radius: 14px;
+    padding: 18px 20px; margin-bottom: 18px;
+    border: 1px solid rgba(93,221,213,.35);
+  }
+  .not-whole h3 { color: var(--teal); font-size: 1.05rem; margin-bottom: 8px; }
+  .not-whole p { font-size: 0.95rem; color: #d5e8e5; margin: 0; }
+  .not-whole ul { margin: 10px 0 0 1.1em; color: #d5e8e5; font-size: 0.92rem; }
+  .not-whole li { margin: 4px 0; }
+
+  .club-hero {
+    margin: 8px 0 18px; border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .club-hero img { display: block; width: 100%; height: auto; }
+  .own-grid {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 14px 0 18px;
+  }
+  @media (max-width: 720px) {
+    .own-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .own {
+    background: var(--navy); color: #fff; border-radius: 12px; padding: 14px;
+    border: 1px solid rgba(93,221,213,.3); text-align: center;
+  }
+  .own .w {
+    font-size: 0.72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--teal); font-weight: 800; margin-bottom: 6px;
+  }
+  .own p { font-size: 0.84rem; color: #b8ccc9; margin: 0; }
+  .tier-club {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    margin-top: 8px;
+  }
+  .tier-c {
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  section.alt .tier-c { background: var(--accent); }
+  .tier-c .lvl { font-weight: 800; color: var(--primary); font-size: 0.82rem; text-transform: uppercase; letter-spacing: .06em; }
+  .tier-c .amt { font-size: 1.45rem; font-weight: 800; color: var(--navy); margin: 6px 0 4px; }
+  .tier-c .nights { font-size: 0.88rem; color: var(--muted); }
+  .center { text-align: center; }
+  .center .lead { margin-left: auto; margin-right: auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><span class="mark"></span> Square Partner</div>
+      <div class="lang">
+        <button type="button" id="btn-sv" class="active" onclick="setLang('sv')">SV</button>
+        <button type="button" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+
+    <div class="pill">Square Partner</div>
+    <h1 class="show-sv">Tipsar du in fastigheter med stark avkastning — får du betalt.</h1>
+    <h1 class="show-en">Refer high-return property — and get paid.</h1>
+
+    <p class="hero-plain show-sv">
+      Square Partner är ett partnerprogram kring <strong>fastigheter där pengarna kan jobba</strong> —
+      yta, hotell, lägenheter och boende som ger intäkt. Helheten: starkare avkastning utomlands, utan att du måste köpa ett helt hus.
+      Du tipsar. När någon går in via dig — eller via din kedja — får du betalt.
+    </p>
+    <p class="hero-plain show-en">
+      Square Partner is a partner program around <strong>property that can earn</strong> —
+      space, hotels, apartments and stays that generate income. The whole picture: stronger returns abroad, without buying a whole house.
+      You refer. When someone comes in through you — or your chain — you get paid.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn-p" href="#join"><span class="show-sv">Jag vill bli partner</span><span class="show-en">I want to become a partner</span></a>
+      <a class="btn btn-g" href="#varfor"><span class="show-sv">Varför utomlands?</span><span class="show-en">Why abroad?</span></a>
+    </div>
+
+    <div class="simple-box" id="enkel">
+      <h2 class="show-sv">På svenska, enkelt</h2>
+      <h2 class="show-en">In plain English</h2>
+      <p class="show-sv">
+        Du tipsar vidare till kunder och andra partners. När någon köper en fastighet på din rekommendation — eller via din kedja — får du en procent av köpesumman.
+        Det kan vara yta, hotell eller en lägenhet som ska ge intäkt. Köper du själv får du dessutom <strong>rabatt på framtida köp</strong>. Allt syns i din översikt.
+      </p>
+      <p class="show-en">
+        You recommend the opportunity to clients and other partners. When someone buys a property on your recommendation — or through your chain — you get a percentage of the purchase.
+        That can be space, a hotel, or an apartment meant to earn. If you buy yourself you also unlock <strong>discounts on future purchases</strong>. Everything shows in your overview.
+      </p>
+    </div>
+  </div>
+</header>
+
+<section class="alt">
+  <div class="wrap">
+    <h2 class="sec show-sv">Tre sätt du tjänar</h2>
+    <h2 class="sec show-en">Three ways you earn</h2>
+    <p class="lead show-sv">Samma program — tre tydliga sätt du får betalt.</p>
+    <p class="lead show-en">Same program — three clear ways you get paid.</p>
+    <div class="earn-grid">
+      <div class="earn">
+        <div class="t show-sv">1 · Direkt</div><div class="t show-en">1 · Direct</div>
+        <div class="b show-sv">Folk du själv tipsar</div><div class="b show-en">People you refer yourself</div>
+        <div class="d show-sv">Högst procent. Ungefär 2,5–5,5 % beroende på din partnernivå.</div>
+        <div class="d show-en">Highest rate. About 2.5–5.5 % depending on your partner level.</div>
+      </div>
+      <div class="earn">
+        <div class="t show-sv">2 · Kedja</div><div class="t show-en">2 · Chain</div>
+        <div class="b show-sv">Folk som dina partners tipsar</div><div class="b show-en">People your partners refer</div>
+        <div class="d show-sv">Mindre procent på nivå 2, 3 och längre ner — men det kan bli många köp.</div>
+        <div class="d show-en">Smaller % on levels 2, 3 and deeper — but many purchases can add up.</div>
+      </div>
+      <div class="earn">
+        <div class="t show-sv">3 · Rabatt</div><div class="t show-en">3 · Discount</div>
+        <div class="b show-sv">När du själv köper yta</div><div class="b show-en">When you buy space yourself</div>
+        <div class="d show-sv">Permanent rabatt 3–10 % beroende på hur många m² du köpt.</div>
+        <div class="d show-en">Permanent discount 3–10 % based on how many m² you have bought.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="alt" id="varfor">
+  <div class="wrap">
+    <h2 class="sec show-sv">Varför titta utomlands?</h2>
+    <h2 class="sec show-en">Why look abroad?</h2>
+    <p class="lead show-sv">Många söker mer än en semesterbostad — de vill ha intäkt, spridning och ett läge som jobbar året runt.</p>
+    <p class="lead show-en">Many want more than a holiday home — income, diversification, and a location that works year-round.</p>
+    <div class="why-grid">
+      <div class="why">
+        <h3 class="show-sv">Hyra och beläggning</h3>
+        <h3 class="show-en">Rent and occupancy</h3>
+        <p class="show-sv">Gäster, hyresgäster och beläggning — boendet kan ge löpande intäkt, inte bara stå tomt.</p>
+        <p class="show-en">Guests, tenants and occupancy — the place can earn ongoing income, not just sit empty.</p>
+      </div>
+      <div class="why">
+        <h3 class="show-sv">Sprida risk</h3>
+        <h3 class="show-en">Spread risk</h3>
+        <p class="show-sv">En marknad utanför Sverige — annan valuta, annan efterfrågan, annan tillväxt.</p>
+        <p class="show-en">A market outside Sweden — different currency, demand and growth drivers.</p>
+      </div>
+      <div class="why">
+        <h3 class="show-sv">Sol, service, efterfrågan</h3>
+        <h3 class="show-en">Sun, service, demand</h3>
+        <p class="show-sv">Kust, storstad och resortlägen där folk vill bo, jobba eller semester — året runt.</p>
+        <p class="show-en">Coast, city and resort spots where people want to live, work or holiday — year-round.</p>
+      </div>
+      <div class="why">
+        <h3 class="show-sv">Skala efter dig</h3>
+        <h3 class="show-en">Scale to you</h3>
+        <p class="show-sv">Börja mindre. Väx när du ser hur det funkar — utan att ta hela huset på en gång.</p>
+        <p class="show-en">Start smaller. Grow when you see how it works — without taking a whole house at once.</p>
+      </div>
+    </div>
+
+    <div class="not-whole">
+      <h3 class="show-sv">Du behöver inte köpa ett helt hus</h3>
+      <h3 class="show-en">You don’t need to buy a whole house</h3>
+      <p class="show-sv">
+        Poängen är att vara med i avkastningen — inte att äga varje rum. Du kan gå in mindre och ändå ta del av vinsten.
+      </p>
+      <p class="show-en">
+        The point is to share in the return — not to own every room. You can start smaller and still take part in the upside.
+      </p>
+      <ul class="show-sv">
+        <li><strong>Per kvadratmeter</strong> — kommersiell yta utan att köpa hela byggnaden</li>
+        <li><strong>En lägenhet</strong> — boende som kan hyras ut och ge intäkt</li>
+        <li><strong>Hotell / boende</strong> — intäkt via beläggning, inte via ett privat villaägande</li>
+        <li><strong>Andel i club</strong> — som Investing Club: äg en bit, bo ibland, dela på intäkten</li>
+        <li><strong>Partnerskap</strong> — rekommendera och få betalt när någon köper, utan att själv köpa</li>
+      </ul>
+      <ul class="show-en">
+        <li><strong>By the square metre</strong> — commercial space without buying the whole building</li>
+        <li><strong>One apartment</strong> — a home that can be let and earn</li>
+        <li><strong>Hotel / stays</strong> — income via occupancy, not a private villa</li>
+        <li><strong>Club share</strong> — like Investing Club: own a piece, stay sometimes, share the income</li>
+        <li><strong>Partnership</strong> — recommend and get paid when someone buys, without buying yourself</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="club">
+  <div class="wrap">
+    <h2 class="sec show-sv">Exempel: Investing Club — Costa del Sol</h2>
+    <h2 class="sec show-en">Example: Investing Club — Costa del Sol</h2>
+    <p class="lead show-sv">
+      En modell där du äger en <strong>andel</strong> i lyxboende — inte ett helt hus.
+      Du kan bo som medlem, få del av intäkterna och växa med tillgången. Det är samma helhet vi menar med «högt ROI utan hela huset».
+    </p>
+    <p class="lead show-en">
+      A model where you own a <strong>share</strong> of luxury residences — not a whole house.
+      Stay as a member, share in the income, grow with the asset. Same whole picture: high return without owning everything.
+    </p>
+
+    <div class="club-hero">
+      <img src="assets/club/investing-club.jpg" alt="Investing Club Costa del Sol" width="1400" height="933" />
+    </div>
+
+    <div class="own-grid">
+      <div class="own"><div class="w">Own</div><p class="show-sv">Äg en andel i 10 residens</p><p class="show-en">Own a share of 10 residences</p></div>
+      <div class="own"><div class="w">Stay</div><p class="show-sv">Bo som medlem — rabatterade nätter</p><p class="show-en">Stay as a member — discounted nights</p></div>
+      <div class="own"><div class="w">Earn</div><p class="show-sv">Del av uthyrningsintäkt &amp; värde</p><p class="show-en">Share of rental income &amp; value</p></div>
+      <div class="own"><div class="w">Grow</div><p class="show-sv">Väx med tillgången över tid</p><p class="show-en">Grow with the asset over time</p></div>
+    </div>
+
+    <p class="lead show-sv" style="margin-bottom:10px">
+      Cirka <strong>100 investerare</strong> delar på <strong>10 residens</strong> (ca 1 332 m²) nära Marbella / Puerto Banús.
+      Medlemsnätter från ca <strong>€75</strong> (marknad ca €200). Struktur via bolag (SPV) — enkelt sagt: ni äger tillsammans, professionell drift.
+    </p>
+    <p class="lead show-en" style="margin-bottom:10px">
+      About <strong>100 investors</strong> share <strong>10 residences</strong> (≈1,332 m²) near Marbella / Puerto Banús.
+      Member nights from about <strong>€75</strong> (market ≈€200). Structure via an SPV — simply: you own together, professionally run.
+    </p>
+
+    <div class="tier-club">
+      <div class="tier-c">
+        <div class="lvl">Club Member</div>
+        <div class="amt">€25 000</div>
+        <div class="nights show-sv">7 privata nätter / år</div>
+        <div class="nights show-en">7 private nights / year</div>
+      </div>
+      <div class="tier-c">
+        <div class="lvl">Club Investor</div>
+        <div class="amt">€50 000</div>
+        <div class="nights show-sv">14 privata nätter / år</div>
+        <div class="nights show-en">14 private nights / year</div>
+      </div>
+      <div class="tier-c">
+        <div class="lvl">Founding Investor</div>
+        <div class="amt">€100 000</div>
+        <div class="nights show-sv">30 privata nätter / år</div>
+        <div class="nights show-en">30 private nights / year</div>
+      </div>
+    </div>
+
+    <p class="note show-sv">
+      Koncept från Investing Club-decket (Costa del Sol). Siffror och villkor är utkast tills de låses.
+      Square Partner: rekommendera den här typen av andel — och få betalt när någon köper.
+    </p>
+    <p class="note show-en">
+      Concept from the Investing Club deck (Costa del Sol). Figures and terms are draft until locked.
+      Square Partner: recommend this kind of share — and get paid when someone buys.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec show-sv">Exempel på objekt — avkastning i fokus</h2>
+    <h2 class="sec show-en">Example listings — return in focus</h2>
+    <p class="lead show-sv">Exempel från utbudet — objekt där avkastning och intäkt är poängen. Priser som visas på objekten, utan påhittade procent.</p>
+    <p class="lead show-en">Examples from the inventory — listings where return and income are the point. Prices as shown, no invented percentages.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <h3 class="show-sv">Hotell & boende</h3>
+        <h3 class="show-en">Hotels & stays</h3>
+        <p class="show-sv">Rum och anläggningar där beläggning driver intäkt.</p>
+        <p class="show-en">Rooms and properties where occupancy drives income.</p>
+      </div>
+      <div class="pillar">
+        <h3 class="show-sv">Lägenheter som ger intäkt</h3>
+        <h3 class="show-en">Apartments that earn</h3>
+        <p class="show-sv">Ett hem som också kan hyras ut — mer flexibilitet i hur pengarna kommer in.</p>
+        <p class="show-en">A home that can also be let — more flexibility in how the money comes in.</p>
+      </div>
+      <div class="pillar">
+        <h3 class="show-sv">Kommersiell yta</h3>
+        <h3 class="show-en">Commercial space</h3>
+        <p class="show-sv">Kontor, butik och lager per kvadratmeter.</p>
+        <p class="show-en">Offices, retail and warehouses by the square metre.</p>
+      </div>
+    </div>
+    <div class="roi-grid">
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p61.jpg" alt="2-Bedroom Ground-Floor Apartment in Chloraka" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Investering</span>
+          <span class="obj-tag show-en">Investment</span>
+          <h3>2-Bedroom Ground-Floor Apartment in Chloraka</h3>
+          <p class="obj-loc">Chloraka</p>
+          <p class="obj-price">€250 000</p>
+          <p class="obj-angle show-sv">Köp med avkastning i sikte — intäkt och läge som kan växa.</p>
+          <p class="obj-angle show-en">Buy with return in mind — income and a location that can grow.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p65.jpg" alt="2-Bedroom Resort Apartment Unit 209" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Investering</span>
+          <span class="obj-tag show-en">Investment</span>
+          <h3>2-Bedroom Resort Apartment Unit 209</h3>
+          <p class="obj-loc">Anarita</p>
+          <p class="obj-price">€244 800</p>
+          <p class="obj-angle show-sv">Köp med avkastning i sikte — intäkt och läge som kan växa.</p>
+          <p class="obj-angle show-en">Buy with return in mind — income and a location that can grow.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p34.jpg" alt="Artemis 305 - Boutique Seaside Apartment" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Intäkt</span>
+          <span class="obj-tag show-en">Income</span>
+          <h3>Artemis 305 - Boutique Seaside Apartment</h3>
+          <p class="obj-loc">Larnaca</p>
+          <p class="obj-price">från €1 575/mån</p>
+          <p class="obj-angle show-sv">Lägenhet där boendet kan ge intäkt — gäster och beläggning, inte bara eget boende.</p>
+          <p class="obj-angle show-en">An apartment that can earn — guests and occupancy, not only personal use.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p48.jpg" alt="Beachfront Apartment Sveti Vlas" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Intäkt</span>
+          <span class="obj-tag show-en">Income</span>
+          <h3>Beachfront Apartment Sveti Vlas</h3>
+          <p class="obj-loc">Sveti Vlas</p>
+          <p class="obj-price">från €2 791/mån</p>
+          <p class="obj-angle show-sv">Lägenhet där boendet kan ge intäkt — gäster och beläggning, inte bara eget boende.</p>
+          <p class="obj-angle show-en">An apartment that can earn — guests and occupancy, not only personal use.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p46.jpg" alt="Cozy Sea View Apartment" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Intäkt</span>
+          <span class="obj-tag show-en">Income</span>
+          <h3>Cozy Sea View Apartment</h3>
+          <p class="obj-loc">Byala</p>
+          <p class="obj-price">från €2 611/mån</p>
+          <p class="obj-angle show-sv">Lägenhet där boendet kan ge intäkt — gäster och beläggning, inte bara eget boende.</p>
+          <p class="obj-angle show-en">An apartment that can earn — guests and occupancy, not only personal use.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p31.jpg" alt="Modern Studio with Pool & Spa" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Intäkt</span>
+          <span class="obj-tag show-en">Income</span>
+          <h3>Modern Studio with Pool & Spa</h3>
+          <p class="obj-loc">Trikomo</p>
+          <p class="obj-price">från €903/mån</p>
+          <p class="obj-angle show-sv">Lägenhet där boendet kan ge intäkt — gäster och beläggning, inte bara eget boende.</p>
+          <p class="obj-angle show-en">An apartment that can earn — guests and occupancy, not only personal use.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p57.jpg" alt="High-Floor 3-Bedroom Luxury Apartment in Forte" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Investering</span>
+          <span class="obj-tag show-en">Investment</span>
+          <h3>High-Floor 3-Bedroom Luxury Apartment in Forte</h3>
+          <p class="obj-loc">Opera District</p>
+          <p class="obj-price">€1 248 500</p>
+          <p class="obj-angle show-sv">Köp med avkastning i sikte — intäkt och läge som kan växa.</p>
+          <p class="obj-angle show-en">Buy with return in mind — income and a location that can grow.</p>
+        </div>
+      </article>
+      <article class="obj">
+        <div class="obj-img"><img src="assets/roi/p59.jpg" alt="Luxury 3-Bedroom Coastal Residence" loading="lazy" /></div>
+        <div class="obj-body">
+          <span class="obj-tag show-sv">Investering</span>
+          <span class="obj-tag show-en">Investment</span>
+          <h3>Luxury 3-Bedroom Coastal Residence</h3>
+          <p class="obj-loc">Palm Jumeirah</p>
+          <p class="obj-price">€2 489 900</p>
+          <p class="obj-angle show-sv">Köp med avkastning i sikte — intäkt och läge som kan växa.</p>
+          <p class="obj-angle show-en">Buy with return in mind — income and a location that can grow.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec show-sv">Så går det till</h2>
+    <h2 class="sec show-en">How it works</h2>
+    <p class="lead show-sv">Fyra steg. Inget krångel.</p>
+    <p class="lead show-en">Four steps. No fuss.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div>
+        <h3 class="show-sv">Du får en länk</h3><h3 class="show-en">You get a link</h3>
+        <p class="show-sv">Personlig länk eller QR efter att du registrerat dig.</p>
+        <p class="show-en">Personal link or QR after you register.</p>
+      </div></div>
+      <div class="step"><div class="n">2</div><div>
+        <h3 class="show-sv">Du delar den</h3><h3 class="show-en">You share it</h3>
+        <p class="show-sv">Till kunder eller andra som vill bli partners. Systemet spårar automatiskt.</p>
+        <p class="show-en">With buyers or people who want to become partners. Tracking is automatic.</p>
+      </div></div>
+      <div class="step"><div class="n">3</div><div>
+        <h3 class="show-sv">Någon köper</h3><h3 class="show-en">Someone buys</h3>
+        <p class="show-sv">När köpet är klart och betalningen är inne räknas din ersättning.</p>
+        <p class="show-en">When the purchase is complete and payment is in, your payout is calculated.</p>
+      </div></div>
+      <div class="step"><div class="n">4</div><div>
+        <h3 class="show-sv">Du får betalt</h3><h3 class="show-en">You get paid</h3>
+        <p class="show-sv">Två gånger i månaden till europeiskt bankkonto. Allt syns i din översikt.</p>
+        <p class="show-en">Twice a month to a European bank account. Everything shows in your overview.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2 class="sec show-sv">Exempel — någon köper på din rekommendation</h2>
+    <h2 class="sec show-en">Example — someone buys on your recommendation</h2>
+    <p class="lead show-sv">Så kan pengarna fördelas i kedjan (indikativt från programmet).</p>
+    <p class="lead show-en">How money can flow in the chain (indicative from the program).</p>
+    <div class="example">
+      <p class="show-sv">
+        Någon köper en fastighet för <strong>€500 000</strong> efter din rekommendation.<br><br>
+        · Du som tipsade direkt kan få ungefär <strong>€15 000–27 500</strong><br>
+        · Nästa person uppåt i kedjan kan få ungefär <strong>€4 000–6 000</strong><br>
+        · Sedan mindre belopp längre upp<br><br>
+        Exakt procent beror på vilken partnernivå ni har.
+      </p>
+      <p class="show-en">
+        Someone buys a property for <strong>€500 000</strong> on your recommendation.<br><br>
+        · You, who recommended them directly, may get about <strong>€15 000–27 500</strong><br>
+        · The next person up the chain may get about <strong>€4 000–6 000</strong><br>
+        · Smaller amounts further up<br><br>
+        Exact percentages depend on partner level.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec show-sv">Partnernivåer — ju mer som köps via dig, desto högre %</h2>
+    <h2 class="sec show-en">Partner levels — the more that buys through you, the higher %</h2>
+    <p class="lead show-sv">
+      Din nivå räknas på hur många kvadratmeter som köpts efter rekommendation från dig eller från personer i din kedja.
+      Ju mer yta som blivit köpt den vägen, desto högre procent får du när någon köper.
+    </p>
+    <p class="lead show-en">
+      Your level is based on how many square metres were bought after a recommendation from you or from people in your chain.
+      The more space bought that way, the higher percentage you earn when someone buys.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th class="show-sv">Nivå</th><th class="show-en">Level</th>
+          <th class="show-sv">Köpt yta via dig &amp; kedjan</th><th class="show-en">Space bought via you &amp; chain</th>
+          <th class="show-sv">När du tipsat direkt</th><th class="show-en">When you recommended directly</th>
+          <th class="show-sv">När det går via din kedja</th><th class="show-en">When it goes via your chain</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Partner</td><td>0 – 500 m²</td><td>2.0 – 2.5 %</td><td>0.3 – 0.6 %</td></tr>
+        <tr><td>Senior Partner</td><td>501 – 1 500 m²</td><td>2.8 – 3.5 %</td><td>0.5 – 0.9 %</td></tr>
+        <tr><td>Expert</td><td>1 501 – 5 000 m²</td><td>3.8 – 4.5 %</td><td>0.7 – 1.1 %</td></tr>
+        <tr><td>Leader</td><td>5 001+ m²</td><td>4.8 – 5.5 %</td><td>0.9 – 1.3 %</td></tr>
+      </tbody>
+    </table>
+    <p class="note show-sv">När ni tillsammans kommer över nästa steg höjs dina procent automatiskt.</p>
+    <p class="note show-en">When you together pass the next step, your percentages rise automatically.</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2 class="sec show-sv">Köper du själv? Då får du rabatt</h2>
+    <h2 class="sec show-en">Buying yourself? You get a discount</h2>
+    <p class="lead show-sv">Rabatten sitter kvar på framtida köp.</p>
+    <p class="lead show-en">The discount stays on future purchases.</p>
+    <div class="tier-row">
+      <div class="tier">
+        <div class="name">Bronze</div>
+        <div class="m2">50 – 200 m²</div>
+        <div class="pct">3%</div>
+        <div class="perk show-sv">Prioriterad visning</div>
+        <div class="perk show-en">Priority viewing</div>
+      </div>
+      <div class="tier">
+        <div class="name">Silver</div>
+        <div class="m2">201 – 500 m²</div>
+        <div class="pct">5%</div>
+        <div class="perk show-sv">Tidig tillgång till nya projekt</div>
+        <div class="perk show-en">Early access to new projects</div>
+      </div>
+      <div class="tier">
+        <div class="name">Gold</div>
+        <div class="m2">501 – 1 500 m²</div>
+        <div class="pct">7%</div>
+        <div class="perk show-sv">Egen manager</div>
+        <div class="perk show-en">Dedicated manager</div>
+      </div>
+      <div class="tier">
+        <div class="name">Platinum</div>
+        <div class="m2">1 501+ m²</div>
+        <div class="pct">10%</div>
+        <div class="perk show-sv">Förtur till objekt</div>
+        <div class="perk show-en">Priority on listings</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec show-sv">Vanliga frågor</h2>
+    <h2 class="sec show-en">Common questions</h2>
+    <div class="faq">
+      <details open>
+        <summary class="show-sv">Vad säljs egentligen?</summary>
+        <summary class="show-en">What is actually being sold?</summary>
+        <p class="show-sv">Fastigheter där avkastning är poängen: yta per m², hotell, lägenheter och boende som kan ge intäkt. Du rekommenderar; teamet hjälper köparen i mål.</p>
+        <p class="show-en">Property where return is the point: space per m², hotels, apartments and stays that can earn. You recommend; the team helps the buyer through.</p>
+      </details>
+
+      <details>
+        <summary class="show-sv">Måste jag köpa ett helt hus?</summary>
+        <summary class="show-en">Do I have to buy a whole house?</summary>
+        <p class="show-sv">Nej. Poängen är att vara med i vinsten — per m², en lägenhet, hotell eller bara genom att tipsa. Du behöver inte äga hela huset.</p>
+        <p class="show-en">No. The point is to share in the upside — by the m², one apartment, a hotel, or simply by referring. You don’t need to own the whole house.</p>
+      </details>
+      <details>
+        <summary class="show-sv">Måste jag själv köpa något?</summary>
+        <summary class="show-en">Do I have to buy something myself?</summary>
+        <p class="show-sv">Nej. Du kan bara tipsa. Köper du själv låser du upp rabattnivåer.</p>
+        <p class="show-en">No. You can only refer. If you buy yourself you unlock discount tiers.</p>
+      </details>
+      <details>
+        <summary class="show-sv">Hur länge får jag betalt från någon jag tipsat?</summary>
+        <summary class="show-en">How long do I get paid from someone I recommended?</summary>
+        <p class="show-sv">Så länge personen (eller deras kedja) köper via bolaget enligt programmets regler får du fortsatt del när de köper.</p>
+        <p class="show-en">As long as that person (or their chain) buys through the company under the program rules, you keep sharing when they buy.</p>
+      </details>
+      <details>
+        <summary class="show-sv">Vad syns i min översikt?</summary>
+        <summary class="show-en">What do I see in my overview?</summary>
+        <p class="show-sv">Din kedja, ersättning per nivå, rabattnivå, intressen och utbetalningar — på ett ställe.</p>
+        <p class="show-en">Your chain, payout by level, discount tier, interests and payouts — in one place.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2 class="sec show-sv">Spelregler</h2>
+    <h2 class="sec show-en">House rules</h2>
+    <p class="lead show-sv">Det här gäller för alla partners — enkelt sagt.</p>
+    <p class="lead show-en">These apply to every partner — in plain terms.</p>
+    <div class="rules">
+      <div class="rule"><i>1</i><span class="show-sv"><strong>Kedjan låses när du går med.</strong> Den som bjöd in dig står kvar ovanför dig.</span><span class="show-en"><strong>Your place in the chain is fixed when you join.</strong> Whoever invited you stays above you.</span></div>
+      <div class="rule"><i>2</i><span class="show-sv"><strong>Samma nivå, samma villkor.</strong> Alla på samma partnernivå får samma procent.</span><span class="show-en"><strong>Same level, same terms.</strong> Everyone at the same partner level gets the same percentages.</span></div>
+      <div class="rule"><i>3</i><span class="show-sv"><strong>Bara nya kunder.</strong> Personen får inte redan ha handlat hos oss de senaste 12–18 månaderna.</span><span class="show-en"><strong>New customers only.</strong> They must not have bought with us in the last 12–18 months.</span></div>
+      <div class="rule"><i>4</i><span class="show-sv"><strong>Minsta köp:</strong> oftast från cirka 40–50 m² per projekt.</span><span class="show-en"><strong>Minimum purchase:</strong> usually from about 40–50 m² per project.</span></div>
+      <div class="rule"><i>5</i><span class="show-sv"><strong>Inga knep.</strong> Du får inte tipsa dig själv eller bygga cirklar som bara flyttar pengar mellan samma personer.</span><span class="show-en"><strong>No tricks.</strong> You may not refer yourself or build circular setups that only move money between the same people.</span></div>
+      <div class="rule"><i>6</i><span class="show-sv"><strong>Utbetalning:</strong> två gånger i månaden till ett europeiskt bankkonto.</span><span class="show-en"><strong>Payout:</strong> twice a month to a European bank account.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap center">
+    <h2 class="sec show-sv">Vill du vara med?</h2>
+    <h2 class="sec show-en">Want in?</h2>
+    <p class="lead show-sv">Skicka ett mejl — vi går igenom hur du startar och får din länk.</p>
+    <p class="lead show-en">Send an email — we walk through how you start and get your link.</p>
+    <a class="btn btn-p" href="mailto:?subject=Square%20Partner">
+      <span class="show-sv">Kontakta oss</span>
+      <span class="show-en">Contact us</span>
+    </a>
+    <p class="note show-sv" style="text-align:left; max-width:34em; margin:22px auto 0;">Utkast. Siffrorna är programkoncept från Square Partner-deckarna — slutliga villkor låses innan live.</p>
+    <p class="note show-en" style="text-align:left; max-width:34em; margin:22px auto 0;">Draft. Figures are program concept from the Square Partner decks — final terms locked before live.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><b>Square Partner</b></div>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  try { localStorage.setItem('sp-lang', lang); } catch (e) {}
+}
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('sp-lang'); } catch (e) {}
+  setLang(saved === 'en' ? 'en' : 'sv');
+})();
+</script>
+</body>
+</html>
